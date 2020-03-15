@@ -1,0 +1,1 @@
+{"cooling1":{"power":"off","speed":"high","error":"no"},"cooling2":{"power":"on","speed":"low","error":"yes"},"light1":{"power":"on","lumen":"high","error":"no"},"light2":{"power":"off","lumen":"low","error":"yes"},"light3":{"power":"on","lumen":"LOW","error":"no"},"water":{"power":"on","error":"no"},"count":25}
