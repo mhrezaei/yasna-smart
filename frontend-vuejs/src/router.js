@@ -5,7 +5,6 @@ import AppFooter from "./layout/AppFooter";
 import Components from "./views/Components.vue";
 import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
-import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import Controller from "./views/Controller";
 
@@ -13,13 +12,13 @@ Vue.use(Router);
 
 export default new Router({
   linkExactActiveClass: "active",
+  mode: 'history',
   routes: [
     {
       path: "/",
       name: "components",
       components: {
-        header: AppHeader,
-        default: Components,
+        default: Controller,
         footer: AppFooter
       }
     },
@@ -42,19 +41,10 @@ export default new Router({
       }
     },
     {
-      path: "/register",
-      name: "register",
-      components: {
-        header: AppHeader,
-        default: Register,
-        footer: AppFooter
-      }
-    },
-    {
       path: "/controller",
       name: "register",
       components: {
-        default: Controller,
+        default: Components,
       }
     },
     {
