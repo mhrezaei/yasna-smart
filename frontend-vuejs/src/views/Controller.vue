@@ -26,19 +26,19 @@
                                 <div class="card-profile-stats d-flex justify-content-center">
                                     <div>
                                         <span class="heading">
-                                            <badge pill type="success">Connected</badge>
+                                            <badge pill :type="statusColor">{{ status }}</badge>
                                         </span>
                                         <span class="description">Status</span>
                                     </div>
                                     <div>
                                         <span class="heading">
-                                            <badge pill type="info">2020-13-31 12:51:59</badge>
+                                            <badge pill type="info">{{ date }}</badge>
                                         </span>
                                         <span class="description">Update</span>
                                     </div>
                                     <div>
                                         <span class="heading">
-                                            <badge pill type="info">8</badge>
+                                            <badge pill type="info" v-model="nodes">{{ nodes }}</badge>
                                         </span>
                                         <span class="description">Nodes</span>
                                     </div>
@@ -94,12 +94,15 @@
     import "../assets/vendor/nucleo/css/nucleo.css";
     import "../assets/vendor/font-awesome/css/font-awesome.css";
     import "../assets/scss/argon.scss";
-    import axios from 'axios'
+    import axios from "axios";
 
     export default {
         data() {
             return {
-
+                nodes: 0,
+                status: 'Connected',
+                statusColor: 'success',
+                date: '2020-12-11 17:23:58',
                 devices: [
                     {
                         icon: 'ni-ui-04',
