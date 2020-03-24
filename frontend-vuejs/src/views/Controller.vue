@@ -145,7 +145,7 @@
                     },
 
                 ],
-                token: Date.now + 'abcdefghijklmnopqrstuvwxyz'
+                token: Date.now().toString() + 'abcdefghijklmnopqrstuvwxyz'
             }
         },
         methods: {
@@ -167,7 +167,7 @@
             fetchStates() {
                 axios.post('api/yasna.php',
                     {
-                        token: "ihjfkghxkfdgxdfgxfgffgxdfg",
+                        token: this.token,
                         request: "GetStates",
                     },
                     {
