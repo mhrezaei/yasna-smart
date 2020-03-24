@@ -11,57 +11,57 @@ import Controller from "./views/Controller";
 Vue.use(Router);
 
 export default new Router({
-  linkExactActiveClass: "active",
-  mode: 'history',
-  routes: [
-    {
-      path: "/",
-      name: "components",
-      components: {
-        default: Controller,
-        footer: AppFooter
-      }
-    },
-    {
-      path: "/landing",
-      name: "landing",
-      components: {
-        header: AppHeader,
-        default: Landing,
-        footer: AppFooter
-      }
-    },
-    {
-      path: "/login",
-      name: "login",
-      components: {
-        header: AppHeader,
-        default: Login,
-        footer: AppFooter
-      }
-    },
-    {
-      path: "/controller",
-      name: "register",
-      components: {
-        default: Components,
-      }
-    },
-    {
-      path: "/profile",
-      name: "profile",
-      components: {
-        header: AppHeader,
-        default: Profile,
-        footer: AppFooter
-      }
+    linkExactActiveClass: "active",
+    mode: 'history',
+    routes: [
+        {
+            path: "/",
+            name: "components",
+            components: {
+                default: Controller,
+                footer: AppFooter
+            }
+        },
+        {
+            path: "/landing",
+            name: "landing",
+            components: {
+                header: AppHeader,
+                default: Landing,
+                footer: AppFooter
+            }
+        },
+        {
+            path: "/login",
+            name: "login",
+            components: {
+                header: AppHeader,
+                default: Login,
+                footer: AppFooter
+            }
+        },
+        {
+            path: "/controller",
+            name: "register",
+            components: {
+                default: Components,
+            }
+        },
+        {
+            path: "/profile",
+            name: "profile",
+            components: {
+                header: AppHeader,
+                default: Profile,
+                footer: AppFooter
+            }
+        }
+    ],
+    scrollBehavior: to => {
+        if (to.hash) {
+            return {selector: to.hash};
+        } else {
+            return {x: 0, y: 0};
+        }
     }
-  ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
 });

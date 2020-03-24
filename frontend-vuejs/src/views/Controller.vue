@@ -66,14 +66,14 @@
                                     </div>
                                     <div class="col col-3" style="padding-top: 10px;">
                                         <label class="switch">
-                                            <input type="checkbox" @click="conditionStatus(device.hashid, 'power')"
+                                            <input type="checkbox" @click="nodeChangeStatus(device.hashid, 'power')"
                                                    :disabled="!device.allowChange" :value="device.power"
                                                    v-model="device.power">
                                             <div class="slider round" data-off="Off" data-on="On"></div>
                                         </label>
 
                                         <label class="switch" v-if="device.power && device.allowChange">
-                                            <input type="checkbox" @click="conditionStatus(device.hashid, 'speed')"
+                                            <input type="checkbox" @click="nodeChangeStatus(device.hashid, 'speed')"
                                                    :value="device.speed" v-model="device.speed">
                                             <div class="slider round" data-off="Low" data-on="High"></div>
                                         </label>
@@ -92,7 +92,6 @@
 </template>
 <script>
     import "../assets/vendor/nucleo/css/nucleo.css";
-    import "../assets/vendor/font-awesome/css/font-awesome.css";
     import "../assets/scss/argon.scss";
     import axios from "axios";
 
@@ -106,7 +105,7 @@
                 devices: [
                     {
                         icon: 'ni-ui-04',
-                        title: 'Programings Room Air Condition',
+                        title: 'Programmers Room Air Conditioner ',
                         allowChange: true,
                         power: false,
                         speed: false,
@@ -114,7 +113,7 @@
                     },
                     {
                         icon: 'ni-ui-04',
-                        title: 'Main Hall Air Condition',
+                        title: 'Main Hall Air Conditioner',
                         allowChange: true,
                         power: false,
                         speed: false,
@@ -122,7 +121,7 @@
                     },
                     {
                         icon: 'ni-bulb-61',
-                        title: 'Programings Room Light One',
+                        title: 'Programmers Room Light One',
                         allowChange: true,
                         power: false,
                         speed: false,
@@ -130,7 +129,7 @@
                     },
                     {
                         icon: 'ni-bulb-61',
-                        title: 'Programings Room Light Two',
+                        title: 'Programmers Room Light Two',
                         allowChange: true,
                         power: false,
                         speed: false,
@@ -138,7 +137,7 @@
                     },
                     {
                         icon: 'ni-umbrella-13',
-                        title: 'Irrigation of flowers and balcony plants',
+                        title: 'Automatic watering of flowers and plants',
                         allowChange: false,
                         power: true,
                         speed: false,
@@ -146,10 +145,11 @@
                     },
 
                 ],
+                token: Date.now + 'abcdefghijklmnopqrstuvwxyz'
             }
         },
         methods: {
-            conditionStatus(hashid, action) {
+            nodeChangeStatus(hashid, action) {
                 this.devices.forEach(function (device, index) {
                     if (device.hashid === hashid) {
                         if (action === 'power') {
@@ -165,23 +165,22 @@
             },
 
             fetchStates() {
-                axios.post('http://yasna.smart/yasna.php',
+                axios.post('api/yasna.php',
                     {
                         token: "ihjfkghxkfdgxdfgxfgffgxdfg",
                         request: "GetStates",
                     },
-                {
+                    {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            'Access-Control-Allow-Origin': 'http://yasna.smart'
                         },
                     }
                 ).then(function () {
                     console.log('SUCCESS!!');
                 })
-                .catch(function () {
-                    console.log('FAILURE!!');
-                });
+                    .catch(function () {
+                        console.log('FAILURE!!');
+                    });
             },
         },
     };
