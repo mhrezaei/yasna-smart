@@ -22,7 +22,7 @@
             <div class="author-card pb-3">
                 <div class="author-card-cover" style="background-image: url(img/cover.jpg);"></div>
                 <div class="author-card-profile">
-                    <div class="author-card-avatar"><img src="img/avatar.png" alt="Daniel Adams">
+                    <div class="author-card-avatar"><img src="frontend-vuejs/public/img/theme/avatar.png" alt="Daniel Adams">
                     </div>
                     <div class="author-card-details">
                         <h5 class="author-card-name text-lg">کنترل داخلی یسناتیم</h5><span class="author-card-position">به روزرسانی: <span id="time"></span></span>
