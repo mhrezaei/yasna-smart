@@ -1,7 +1,5 @@
 <?php
 
-require './jdf.php';
-
 userAccept();
 
 function post($parameters)
@@ -9,6 +7,9 @@ function post($parameters)
     $post = array();
     if(is_array($parameters) && count($parameters) > 0)
     {
+        // Json decode the received data from axios
+        $_POST = json_decode(file_get_contents("php://input"),true);
+
         for($i = 0; $i < count($parameters); $i++)
         {
             if(isset($_POST[$parameters[$i]]) && strlen($_POST[$parameters[$i]]) > 0)
@@ -37,6 +38,7 @@ function post($parameters)
 
 function checkToken()
 {
+
     $token = post(['token']);
     if(!is_string($token))
     {
@@ -122,7 +124,7 @@ function checkRequest()
 
 function bindStates($states)
 {
-    $states['time'] = jdate('l d F - H:i:s', time());
+    $states['time'] = date('l d F - H:i:s', time());
     return $states;
 }
 
@@ -135,7 +137,6 @@ function unbindStates($states)
 function response($status, $parameters)
 {
     $pm['status'] = $status;
-    print_r($parameters);
     $pm = compact($pm, $parameters);
     echo json_encode($pm);
 }
