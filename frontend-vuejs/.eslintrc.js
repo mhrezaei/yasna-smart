@@ -1,16 +1,42 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
-  },
-  'extends': [
-    'plugin:vue/essential'
-  ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  },
-  parserOptions: {
-    parser: 'babel-eslint'
-  }
-}
+    root: true,
+    env: {browser: true, node: true,},
+    extends: [],
+    rules: {
+        'max-len': ['error', {code: 256}],
+        indent: ['error', 4],
+        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'padded-blocks': ['error', 'never'],
+        'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')],
+        'no-trailing-spaces': ['error', {skipBlankLines: true, ignoreComments: true,},],
+        'key-spacing': ['error', {align: 'colon'}],
+        'vue/script-indent': ['error', 4, {baseIndent: 1,},],
+        'vue/html-indent': ['error', 4, {
+            attribute: 1,
+            baseIndent: 1,
+            closeBracket: 0,
+            alignAttributesVertically: true,
+        },],
+        'no-underscore-dangle': 'off',
+        'space-in-parens': 'off',
+        'no-prototype-builtins': 'off',
+        'import/no-unresolved': 'off',
+        'import/extensions': 'off',
+        'require-jsdoc': ['warn', {
+            require: {
+                FunctionDeclaration: true,
+                MethodDefinition: true,
+                ClassDeclaration: true,
+                ArrowFunctionExpression: true,
+                FunctionExpression: true,
+            },
+        }],
+        'import/no-named-as-default': 'off',
+        'vue-i18n/no-html-messages': 'off',
+        'vue-i18n/no-missing-keys': 'off',
+        'vue-i18n/no-v-html': 'off',
+    },
+    overrides: [{files: ['*.vue'], rules: {indent: 'off'},},],
+    parserOptions: {parser: 'babel-eslint',},
+};
