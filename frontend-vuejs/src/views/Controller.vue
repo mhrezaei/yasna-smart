@@ -1,70 +1,39 @@
 <template>
     <div class="profile-page">
-        <section class="section-profile-cover section-shaped my-0">
-            <div class="shape shape-style-1 shape-primary shape-skew alpha-4"></div>
-        </section>
+        <cover-section></cover-section>
         <section class="section section-skew">
             <div class="container">
                 <card shadow class="card-profile mt--300" no-body>
                     <div class="px-4">
                         <div class="row justify-content-center">
-                            <div class="col-lg-3 order-lg-2">
-                                <div class="card-profile-image">
-                                    <a href="/">
-                                        <img v-lazy="'img/theme/avatar.png'">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
-                                <div class="card-profile-actions py-4 mt-lg-0">
-                                    <base-button type="info" size="sm" class="mr-4" @click="fetchStates">Refresh
-                                    </base-button>
-                                    <base-button type="warning" size="sm" class="float-right">Logout</base-button>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 order-lg-1">
-                                <div class="card-profile-stats d-flex justify-content-center">
-                                    <div>
-                                        <span class="heading">
-                                            <badge pill :type="statusColor">{{ status }}</badge>
-                                        </span>
-                                        <span class="description">Status</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">
-                                            <badge pill type="info">{{ date }}</badge>
-                                        </span>
-                                        <span class="description">Update</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">
-                                            <badge pill type="info" v-model="nodes">{{ nodes }}</badge>
-                                        </span>
-                                        <span class="description">Nodes</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <profile-picture></profile-picture>
+                            <buttons-section :fetch-states="fetchStates"></buttons-section>
+                            <devices-info :statusColor="statusColor" :nodes="nodes" :status="status"
+                                          :date="date"></devices-info>
                         </div>
 
                         <div class="mt-5 py-5 border-top">
                             <div class="container">
 
-                                <div class="row border-bottom" style="padding-bottom: 8px; margin-bottom: 5px;"
+                                <div class="row border-bottom device-divider"
                                      v-for="device in devices">
                                     <div class="col col-1">
-                                        <i :class="'ni ' + device.icon"
-                                           style="font-size: 20px; color: orange; padding-top: 6px;"></i>
+                                        <i :class="'icons ni ' + device.icon"></i>
                                     </div>
                                     <div class="col col-8">
                                         <div>{{ device.title }}</div>
-                                        <badge pill type="success" v-if="device.power">Powered On</badge>
-                                        <badge pill type="success" v-if="!device.power">Powered Off</badge>
-                                        <badge pill type="warning"
-                                               v-if="device.power && !device.speed && device.allowChange">Low
-                                        </badge>
-                                        <badge pill type="danger" v-if="device.power && device.speed">High</badge>
+                                        <badger :type="'success'" :condition="device.power"
+                                                :label="'Powered On'"></badger>
+                                        <badger :type="'success'" :condition="!device.power"
+                                                :label="'Powered Off'"></badger>
+                                        <badger :type="'warning'"
+                                                :condition="device.power && !device.speed && device.allowChange"
+                                                :label="'Low'"></badger>
+                                        <badger :type="'danger'" :condition="device.power && device.speed"
+                                                :label="'High'"></badger>
+
                                     </div>
-                                    <div class="col col-3" style="padding-top: 10px;">
+                                    <div class="col col-3">
                                         <label class="switch">
                                             <input type="checkbox" @click="nodeChangeStatus(device.hashid, 'power')"
                                                    :disabled="!device.allowChange" :value="device.power"
@@ -93,12 +62,24 @@
 <script>
     import "../assets/vendor/nucleo/css/nucleo.css";
     import "../assets/scss/argon.scss";
+    import coverSection from "./components/CoverSection";
+    import profilePicture from "./components/ProfilePicture";
+    import buttonsSection from "./components/ButtonsSection";
+    import devicesInfo from "./components/DevicesInfo";
+    import badger from "./components/Badger";
     import axios from "axios";
 
     export default {
+        components: {
+            coverSection,
+            profilePicture,
+            buttonsSection,
+            devicesInfo,
+            badger,
+        },
         data() {
             return {
-                nodes: 0,
+                nodes: 10,
                 status: 'Connected',
                 statusColor: 'success',
                 date: '2020-12-11 17:23:58',
@@ -185,5 +166,3 @@
         },
     };
 </script>
-<style>
-</style>
