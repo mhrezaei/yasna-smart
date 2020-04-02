@@ -3,7 +3,7 @@
         <div class="card-profile-actions py-4 mt-lg-0">
             <base-button type="info" size="sm" class="mr-4" @click="fetchStates">Refresh
             </base-button>
-            <base-button type="warning" size="sm" class="float-right">Logout</base-button>
+            <base-button type="warning" size="sm" class="float-right">Manage</base-button>
         </div>
     </div>
 </template>
