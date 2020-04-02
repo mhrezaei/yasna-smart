@@ -35,20 +35,21 @@
                                     </div>
                                     <div class="col col-3">
                                         <label class="switch">
-                                            <input type="checkbox" @click="nodeChangeStatus(device.hashid, 'power')"
+                                            <input type="checkbox"
+                                                   @click="nodeChangeStatus(device.hashid, 'power', device.power)"
                                                    :disabled="!device.allowChange" :value="device.power"
                                                    v-model="device.power">
                                             <div class="slider round" data-off="Off" data-on="On"></div>
                                         </label>
 
                                         <label class="switch" v-if="device.power && device.allowChange">
-                                            <input type="checkbox" @click="nodeChangeStatus(device.hashid, 'speed')"
+                                            <input type="checkbox"
+                                                   @click="nodeChangeStatus(device.hashid, 'speed', device.speed)"
                                                    :value="device.speed" v-model="device.speed">
                                             <div class="slider round" data-off="Low" data-on="High"></div>
                                         </label>
                                     </div>
                                 </div>
-
 
                             </div>
 
@@ -68,6 +69,7 @@
     import devicesInfo from "./components/DevicesInfo";
     import badger from "./components/Badger";
     import axios from "axios";
+    import qs from 'qs';
 
     export default {
         components: {
@@ -83,86 +85,73 @@
                 status: 'Connected',
                 statusColor: 'success',
                 date: '2020-12-11 17:23:58',
-                devices: [
-                    {
-                        icon: 'ni-ui-04',
-                        title: 'Programmers Room Air Conditioner ',
-                        allowChange: true,
-                        power: false,
-                        speed: false,
-                        hashid: 'abcds'
-                    },
-                    {
-                        icon: 'ni-ui-04',
-                        title: 'Main Hall Air Conditioner',
-                        allowChange: true,
-                        power: false,
-                        speed: false,
-                        hashid: 'sdcxcs'
-                    },
-                    {
-                        icon: 'ni-bulb-61',
-                        title: 'Programmers Room Light One',
-                        allowChange: true,
-                        power: false,
-                        speed: false,
-                        hashid: 'sdcxsscs'
-                    },
-                    {
-                        icon: 'ni-bulb-61',
-                        title: 'Programmers Room Light Two',
-                        allowChange: true,
-                        power: false,
-                        speed: false,
-                        hashid: 'sdcsxsscs'
-                    },
-                    {
-                        icon: 'ni-umbrella-13',
-                        title: 'Automatic watering of flowers and plants',
-                        allowChange: false,
-                        power: true,
-                        speed: false,
-                        hashid: 'sdcsxsscas'
-                    },
-
-                ],
+                devices: [],
                 token: Date.now().toString() + 'abcdefghijklmnopqrstuvwxyz'
             }
         },
         methods: {
-            nodeChangeStatus(hashid, action) {
-                this.devices.forEach(function (device, index) {
-                    if (device.hashid === hashid) {
-                        if (action === 'power') {
-                            device.power = !device.power;
-                            if (!device.power) {
-                                device.speed = false;
-                            }
-                        } else if (action === 'speed') {
-                            device.speed = !device.speed;
-                        }
-                    }
-                });
-            },
+            nodeChangeStatus(hashid, action, status) {
+                let task = null;
+                if (action === 'power') {
+                    if (!status)
+                        task = 'power-on';
+                    else
+                        task = 'power-off';
+                } else if (action === 'speed') {
+                    if (!status)
+                        task = 'speed-high';
+                    else
+                        task = 'speed-low';
+                }
 
-            fetchStates() {
-                axios.post('api/yasna.php',
-                    {
-                        token: this.token,
-                        request: "GetStates",
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                    }
-                ).then(function () {
-                    console.log('SUCCESS!!');
+                const url = '/api';
+                const data = {
+                    token: this.masterToken(),
+                    request: "newTask",
+                    device: hashid,
+                    task: task
+                };
+
+                axios.post(
+                    url,
+                    qs.stringify(data)
+                ).then(response => {
+                    this.fetchStates();
                 })
                     .catch(function () {
                         console.log('FAILURE!!');
                     });
             },
+
+            fetchStates() {
+                const url = '/api';
+                const data = {
+                    token: this.masterToken(),
+                    request: "GetStates",
+                };
+
+                axios.post(
+                    url,
+                    qs.stringify(data)
+                ).then(response => {
+                    this.data = response.data;
+                    this.date = response.data.updated_at;
+                    this.nodes = response.data.nodes;
+                    this.status = response.data.status;
+                    this.statusColor = response.data.statusColor;
+                    this.devices = response.data.devices;
+                })
+                    .catch(function () {
+                        console.log('FAILURE!!');
+                    });
+            },
+
+            masterToken() {
+                return process.env.VUE_APP_NODE_TOKEN;
+            },
+        },
+        mounted() {
+            this.fetchStates();
         },
     };
 </script>
