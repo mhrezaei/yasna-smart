@@ -17,7 +17,7 @@ class CreateDevicesTable extends Migration
             $table->id();
             $table->unsignedInteger('node_id')->index()->default(0);
             $table->string('title', 128)->index();
-            $table->integer('number_of_keys')->index();
+            $table->string('icon')->index();
             $table->json('key_status')->nullable();
             $table->timestamps();
             $table->softDeletes();

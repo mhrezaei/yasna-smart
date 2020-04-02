@@ -17,6 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->unsignedInteger('node_id')->index()->default(0);
             $table->unsignedInteger('device_id')->index()->default(0);
+            $table->string('pin_slug')->index();
             $table->string('task', 128)->index();
             $table->string('status', 128)->index();
             $table->dateTime('doing_at')->index()->nullable();
