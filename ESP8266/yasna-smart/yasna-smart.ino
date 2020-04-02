@@ -21,7 +21,7 @@ int greenLed = 12;
 const char* serverAddress = "SERVER ADDRESS";
 
 // Your access token
-const char* accessToken = "YZmVGrBBcQ3uT2CZkdeSkHH3rGxdg3pn";
+const char* accessToken = "ACCESS TOKEN";
 const char* requestName = "getClientStates";
 
 // Update period time set to fetch data. default: 5 seconds
