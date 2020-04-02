@@ -24,6 +24,11 @@ class Node extends Model
         return $this->hasMany('App\Task');
     }
 
+    public function attendances()
+    {
+        return $this->hasMany('App\Attendance');
+    }
+
     public static function findByToken($token)
     {
         return self::where('token', $token);
