@@ -2,3 +2,4 @@
 ESP8266/.vscode/c_cpp_properties.json
 
 frontend-vuejs/node_modules/*
+ESP8266/.vscode/arduino.json
