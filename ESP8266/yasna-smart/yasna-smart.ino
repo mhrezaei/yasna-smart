@@ -20,10 +20,14 @@ int redLed = 15;
 int greenLed = 12;
 
 // Your server IP or Domain name address
-const char* serverAddress = "http://81.12.73.170:31080/ep/esp-outputs-action.php?action=outputs_state&board=1";
+const char* serverAddress = "SERVER ADDRESS";
+
+// Your access token
+const char* accessToken = "YZmVGrBBcQ3uT2CZkdeSkHH3rGxdg3pn";
+const char* requestName = "getClientStates";
 
 // Update period time set to fetch data. default: 5 seconds
-const long fetchPeriod = 10000;
+const long fetchPeriod = 5000;
 unsigned long previousRound = 0;
 String moduleState;
 
@@ -81,11 +85,9 @@ void fetchStates(){
       // fetch data from server
       moduleState = hgmr(serverAddress);
 
-      Serial.println(serverAddress);
-      //Serial.println(WiFi.status());
-
       // Parse the recieved json data from server
       JSONVar takenState = JSON.parse(moduleState);
+      //takenState = takenState['node'];
   
       // Check the type of json object
       if (JSON.typeof(takenState) == "undefined") {
@@ -99,7 +101,6 @@ void fetchStates(){
         return;
       }
     
-      Serial.print("JSON object = ");
       Serial.println(takenState);
     
       // Find the pins number
@@ -114,7 +115,7 @@ void fetchStates(){
         pinMode(atoi(pins[i]), OUTPUT);
 
         // Write the new state to pin
-        //digitalWrite(atoi(pins[i]), atoi(value));
+        digitalWrite(atoi(pins[i]), atoi(value));
 
         Serial.print("GPIO: ");
         Serial.print(pins[i]);
@@ -140,7 +141,7 @@ void fetchStates(){
   }
 }
 
-// HTTP GET method request
+// HTTP POST method request
 String hgmr(const char* serverAddress) {
   // use the wifi client package
   WiFiClient client;
@@ -150,11 +151,16 @@ String hgmr(const char* serverAddress) {
     
   // Request address 
   http.begin(client, serverAddress);
+  http.addHeader("Content-Type", "application/json");
+
+  String PostData="{\"token\":\"";
+    PostData=PostData+accessToken+"\",";
+    PostData=PostData+"\"request\":\"";
+    PostData=PostData+requestName+"\"";
+    PostData=PostData+"}"; 
   
   // Respons code from server
-  int responseCode = http.GET();
-
-  Serial.println(responseCode);
+  int responseCode = http.POST(PostData);
   
   // create the data string
   String data = "{}"; 
@@ -177,6 +183,5 @@ String hgmr(const char* serverAddress) {
   // Free resources one ESP8266
   http.end();
 
-  Serial.println(data);
   return data;
 }
