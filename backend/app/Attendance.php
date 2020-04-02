@@ -9,7 +9,7 @@ class Attendance extends Model
     use ModelTrait;
     protected $table = 'attendances';
     protected $fillable = [
-        'device_is',
+        'node_id',
     ];
 
     public function node()
