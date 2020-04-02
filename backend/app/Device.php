@@ -25,4 +25,36 @@ class Device extends Model
         return $this->hasMany('App\Task');
     }
 
+    public function isPoweredOn()
+    {
+        $keys = json_decode($this->key_status, true);
+        if ($keys['current_rule'] == 'power-on' || $keys['current_rule'] == 'speed-high' ||  $keys['current_rule'] == 'speed-low')
+            return true;
+        return false;
+    }
+
+    public function isPoweredOff()
+    {
+        $keys = json_decode($this->key_status, true);
+        if ($keys['current_rule'] == 'power-off')
+            return true;
+        return false;
+    }
+
+    public function isSpeedHigh()
+    {
+        $keys = json_decode($this->key_status, true);
+        if ($keys['current_rule'] == 'speed-high')
+            return true;
+        return false;
+    }
+
+    public function isSpeedLow()
+    {
+        $keys = json_decode($this->key_status, true);
+        if ($keys['current_rule'] == 'speed_low')
+            return true;
+        return false;
+    }
+
 }
