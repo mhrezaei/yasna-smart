@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Node;
+use App\Attendance;
+use App\Device;
 use App\Traits\SmartTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SmartController extends Controller
@@ -12,20 +14,32 @@ class SmartController extends Controller
     protected $request;
     protected $data;
     protected $node;
+    protected $device;
+    protected $bind = true;
 
-    public function cons($request)
+    public function index(Request $request)
     {
         $this->request = $request;
-        $this->checkNodeToken($this->request);
+        $this->doings();
+        $this->checkNodeToken();
+        if ($this->haveAccess())
+            $this->checkRequest();
+        return $this->respond();
     }
 
-    public function getStates(Request $request)
+    private function getStates()
     {
-        $this->cons($request);
-        if ($this->haveAccess()) {
-            $this->data['data'] = $this->node->idx();
+        $this->masterStates();
+    }
 
-        }
-        return $this->respond();
+    private function newTask()
+    {
+        $this->checkDevice();
+        $this->createTask();
+    }
+
+    public function getClientStates()
+    {
+        $this->clientStates();
     }
 }
