@@ -14,4 +14,4 @@
 
 use App\Node;
 
-Route::post('/', 'SmartController@index');
+Route::post('/api', 'SmartController@index');
