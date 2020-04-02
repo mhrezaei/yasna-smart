@@ -11,6 +11,7 @@ class Task extends Model
     protected $fillable = [
         'node_id',
         'device_id',
+        'pin_slug',
         'task',
         'status',
         'doing_at',
@@ -19,12 +20,12 @@ class Task extends Model
 
     public function device()
     {
-        return $this->hasOne('App\Device');
+        return $this->belongsTo('App\Device');
     }
 
     public function node()
     {
-        return $this->hasOne('App\Node');
+        return $this->belongsTo('App\Node');
     }
 
 }

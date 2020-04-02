@@ -17,7 +17,7 @@ class Device extends Model
 
     public function node()
     {
-        return $this->hasOne('App\Node');
+        return $this->belongsTo('App\Node');
     }
 
     public function tasks()
