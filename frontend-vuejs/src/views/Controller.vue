@@ -153,5 +153,10 @@
         mounted() {
             this.fetchStates();
         },
+        created() {
+            setInterval(function () {
+                this.fetchStates()
+            }.bind(this), 10000);
+        }
     };
 </script>
