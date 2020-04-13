@@ -104,7 +104,9 @@ void fetchStates(){
       // Find the pins number
       JSONVar pins = takenState.keys();
     
-      for (int i = 0; i < pins.length(); i++) {
+      // Check the pings numbers
+      if(pins.length() > 0){
+          for (int i = 0; i < pins.length(); i++) {
 
         // New pin state
         JSONVar value = takenState[pins[i]];
@@ -121,6 +123,7 @@ void fetchStates(){
         Serial.println(value);
 
       }
+        }
 
         // LED alert
         ledAlert(greenLed);
